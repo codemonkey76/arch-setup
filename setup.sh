@@ -6,10 +6,15 @@ set -euo pipefail
 init_sudo() {
     echo "🔐 Requesting sudo password..."
     sudo -v
-    while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
-        SUDO_LOOP_PID=$!
-        trap 'kill $SUDO_LOOP_PID' EXIT
-    }
+    while true; do
+        sudo -n true
+        sleep 60
+        kill -0 "$$" || exit
+    done 2>/dev/null &
+        
+    SUDO_LOOP_PID=$!
+    trap 'kill $SUDO_LOOP_PID' EXIT
+}
 
 setup_ssh() {
     echo "🔧 Setting up SSH key..."
@@ -42,9 +47,8 @@ install_if_missing() {
 install_yay() {
     if ! command -v yay &>/dev/null; then
         echo "📦 Installing yay (AUR helper)..."
-        echo "Installing yay..."
         git clone https://aur.archlinux.org/yay.git /tmp/yay
-        (cd /tmp/yay && makepkg -si --noconfirm)
+        (cd /tmp/yay && sudo -v && makepkg -si --noconfirm)
         rm -rf /tmp/yay
     else
         echo "✅ yay is already installed"
@@ -91,7 +95,7 @@ main() {
         xdg-desktop-portal-hyprland xdg-desktop-portal-gtk thunar
 
     echo "🧹 Removing unneeded packages..."
-    remove_if_installed dolpin kitty
+    remove_if_installed dolphin kitty
 
     echo "🧹 Removing orphan packages..."
     orphans=$(pacman -Qdtq || true)
