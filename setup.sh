@@ -62,7 +62,16 @@ aur_install_if_missing() {
     done
 }
 
+assert_not_root() {
+    if [[ "$EUID" -eq 0 ]];; then
+        echo "❌ This script should not be run as root."
+        echo "   Please run it as a normal user — sudo will be used where required."
+        exit 1
+    fi
+}
+
 main() {
+    assert_not_root
     init_sudo
 
     echo "🚀 Starting system setup..."
