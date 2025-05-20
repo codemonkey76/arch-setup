@@ -70,6 +70,17 @@ assert_not_root() {
     fi
 }
 
+remove_if_installed() {
+    for pkg in "$@"; do
+        if pacman -Q "$pkg" &>/dev/null; then
+            echo "🧹 Removing $pkg..."
+            sudo pacman -Rs --noconfirm "$pkg"
+        else
+            echo "ℹ️ Package $pkg is not installed — skipping"
+        fi
+    done
+}
+
 main() {
     assert_not_root
     init_sudo
@@ -80,7 +91,7 @@ main() {
         xdg-desktop-portal-hyprland xdg-desktop-portal-gtk thunar
 
     echo "🧹 Removing unneeded packages..."
-    sudo pacman -Rs dolpin kitty
+    remove_if_installed dolpin kitty
 
     echo "🧹 Removing orphan packages..."
     orphans=$(pacman -Qdtq || true)
