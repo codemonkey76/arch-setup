@@ -63,7 +63,7 @@ aur_install_if_missing() {
 }
 
 assert_not_root() {
-    if [[ "$EUID" -eq 0 ]];; then
+    if [[ "$EUID" -eq 0 ]]; then
         echo "❌ This script should not be run as root."
         echo "   Please run it as a normal user — sudo will be used where required."
         exit 1

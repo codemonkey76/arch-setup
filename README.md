@@ -27,13 +27,13 @@ Make sure it is **not** `root`.
 
 Using `curl`:
 ```bash
-bash <(curl -sSL https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/setup.sh)
+bash <(curl -sSL https://raw.githubusercontent.com/codemonkey76/arch_setup/main/setup.sh)
 
 ```
 
 Or using `wget`:
 ```bash
-bash <(wget -qO- https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/setup.sh)
+bash <(wget -qO- https://raw.githubusercontent.com/codemonkey76/arch_setup/main/setup.sh)
 ```
 
 > 🛑 Do NOT run this script as root. It will use sudo only where necessary.
